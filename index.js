@@ -1,33 +1,6 @@
-const wppconnect = require('@wppconnect-team/wppconnect');
-const connection = require('./db/connection');
-const tables = require('./db/tables');
+const connect = require('./src/connect')
 
-const session = 'BotWhats';
-infra()
-function infra() {
-    connection.connect(erro => {
-        if (erro) {
-            console.log(erro)
-        } else {
-            console.log('info:     MySQL Conectado!')
-            tables.init(connection)
-        }
-    })
-
-    wppconnect.create({
-            session: session,
-            autoClose: false,
-            puppeteerOptions: {
-                args: ['--no-sandbox']
-            }
-        })
-        .then((client) => validacaoInicial(client))
-        .catch((error) => console.log(error))
-}
-
-
-
-
+connect.infra()
 function sendWppMessage(client, sendTo, text, botoes) {
     client.sendText(sendTo, text, botoes)
         .then((result) => {
